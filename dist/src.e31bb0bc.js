@@ -137,8 +137,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 // import "p5/lib/addons/p5.dom";
 var scale = 1;
-var width = 640 * scale;
-var height = 480 * scale; // setSketch sets this
+var width = 800 * scale;
+var height = 600 * scale; // setSketch sets this
 
 var p5; // setup initializes this
 
@@ -169,6 +169,7 @@ function drawPoses(poses) {
 
   p5.scale(-1.0, 1.0);
   p5.image(video, 0, 0, video.width, video.height);
+  p5.background(300, 200, 200);
   drawKeypoints(poses);
   drawSkeleton(poses);
 } // Draw ellipses over the detected keypoints
@@ -178,9 +179,9 @@ function drawKeypoints(poses) {
   poses.forEach(function (pose) {
     return pose.pose.keypoints.forEach(function (keypoint) {
       if (keypoint.score > 0.2) {
-        p5.fill(0, 255, 0);
+        p5.fill(300, 10, 10);
         p5.noStroke();
-        p5.ellipse(keypoint.position.x, keypoint.position.y, 20, 10);
+        p5.ellipse(keypoint.position.x, keypoint.position.y, 20, 20);
       }
     });
   });
@@ -193,7 +194,7 @@ function drawSkeleton(poses) {
           p1 = _skeleton[0],
           p2 = _skeleton[1];
 
-      p5.stroke(255, 0, 0);
+      p5.stroke(200, 0, 0);
       p5.line(p1.position.x, p1.position.y, p2.position.x, p2.position.y);
     });
   });
@@ -254,7 +255,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59301" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65484" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

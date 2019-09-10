@@ -1,8 +1,8 @@
 // import "p5/lib/addons/p5.dom";
 
 const scale = 1;
-const width = 640 * scale;
-const height = 480 * scale;
+const width = 800 * scale;
+const height = 600 * scale;
 
 // setSketch sets this
 let p5;
@@ -36,6 +36,7 @@ function drawPoses(poses) {
   p5.translate(width, 0); // move to far corner
   p5.scale(-1.0, 1.0);
   p5.image(video, 0, 0, video.width, video.height);
+  p5.background(300, 200, 200); 
   drawKeypoints(poses);
   drawSkeleton(poses);
 }
@@ -45,9 +46,10 @@ function drawKeypoints(poses) {
   poses.forEach((pose) =>
     pose.pose.keypoints.forEach((keypoint) => {
       if (keypoint.score > 0.2) {
-        p5.fill(0, 255, 0);
+        p5.fill(300, 10, 10);
         p5.noStroke();
-        p5.ellipse(keypoint.position.x, keypoint.position.y, 20, 10);
+        p5.ellipse(keypoint.position.x, keypoint.position.y, 20, 20);
+        
       }
     })
   )
@@ -57,7 +59,7 @@ function drawSkeleton(poses) {
     poses.forEach((pose) => {
       pose.skeleton.forEach((skeleton) => {
         const [p1, p2] = skeleton;
-        p5.stroke(255, 0, 0);
+        p5.stroke(200, 0, 0);
         p5.line(p1.position.x, p1.position.y, p2.position.x, p2.position.y);
       });
     });
