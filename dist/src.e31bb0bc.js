@@ -117,15 +117,23 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"sketch.js":[function(require,module,exports) {
+})({"assets/calm.mp3":[function(require,module,exports) {
+module.exports = "/calm.5f2c2b06.mp3";
+},{}],"assets/sad.mp3":[function(require,module,exports) {
+module.exports = "/sad.0f9d181f.mp3";
+},{}],"assets/up2u.mp3":[function(require,module,exports) {
+module.exports = "/up2u.bebf05b5.mp3";
+},{}],"sketch.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.preload = preload;
 exports.setSketch = setSketch;
 exports.setup = setup;
 exports.draw = draw;
+exports.mouseClicked = mouseClicked;
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
@@ -136,13 +144,31 @@ function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 // import "p5/lib/addons/p5.dom";
+var audioFile = require("./assets/calm.mp3");
+
+console.info(audioFile);
+
+var audio2File = require("./assets/sad.mp3");
+
+console.info(audio2File);
+
+var audio3File = require("./assets/up2u.mp3");
+
+console.info(audio3File);
 var scale = 1;
 var width = 800 * scale;
-var height = 600 * scale; // setSketch sets this
+var height = 600 * scale; // setSketch sets this 
 
 var p5; // setup initializes this
 
 var video;
+var mySound;
+
+function preload() {
+  //p5.soundFormats('mp3');
+  p5.getAudioContext().resume();
+  mySound = p5.loadSound(audioFile);
+}
 
 function setSketch(sketch) {
   p5 = sketch;
@@ -150,6 +176,60 @@ function setSketch(sketch) {
 
 function setup() {
   p5.createCanvas(width, height);
+  var audioButton = p5.createButton('calm');
+  audioButton.position(5, height + 20); //mySound = p5.loadSound('assets/ShanghaiSoundloop.mp3');
+
+  audioButton.mouseClicked(function () {
+    //console.log
+    mySound.play();
+    p5.background(400, 200, 0);
+    my2Sound.pause();
+    my3Sound.pause();
+    p5.userStartAudio().then(function () {
+      //audioButton.remove(); 
+      //osc = new window.p5.Oscillator();
+      // now you can call osc methods to make sound happen
+      p5.background(400, 200, 0);
+    });
+  });
+  var my2Sound; //p5.soundFormats('mp3');
+
+  p5.getAudioContext().resume();
+  my2Sound = p5.loadSound(audio2File);
+  var sound2Button = p5.createButton('sad');
+  sound2Button.position(60, height + 20); //mySound = p5.loadSound('assets/ShanghaiSoundloop.mp3');
+
+  sound2Button.mouseClicked(function () {
+    //console.log
+    my2Sound.play();
+    mySound.pause();
+    my3Sound.pause();
+    p5.userStartAudio().then(function () {
+      //audioButton.remove(); 
+      //osc = new window.p5.Oscillator();
+      // now you can call osc methods to make sound happen
+      p5.background(10, 10, 60);
+    });
+  });
+  var my3Sound; //p5.soundFormats('mp3');
+
+  p5.getAudioContext().resume();
+  my3Sound = p5.loadSound(audio3File);
+  var sound3Button = p5.createButton('Up 2 U');
+  sound3Button.position(110, height + 20); //mySound = p5.loadSound('assets/ShanghaiSoundloop.mp3');
+
+  sound3Button.mouseClicked(function () {
+    //console.log
+    my3Sound.play();
+    mySound.pause();
+    my2Sound.pause();
+    p5.userStartAudio().then(function () {
+      //audioButton.remove(); 
+      //osc = new window.p5.Oscillator();
+      // now you can call osc methods to make sound happen
+      p5.background(100, 10, 600);
+    });
+  });
   video = p5.select('video') || p5.createCapture(p5.VIDEO);
   video.size(width, height); // Create a new poseNet method with a single detection
 
@@ -169,7 +249,6 @@ function drawPoses(poses) {
 
   p5.scale(-1.0, 1.0);
   p5.image(video, 0, 0, video.width, video.height);
-  p5.background(300, 200, 200);
   drawKeypoints(poses);
   drawSkeleton(poses);
 } // Draw ellipses over the detected keypoints
@@ -179,13 +258,36 @@ function drawKeypoints(poses) {
   poses.forEach(function (pose) {
     return pose.pose.keypoints.forEach(function (keypoint) {
       if (keypoint.score > 0.2) {
-        p5.fill(300, 10, 10);
+        p5.fill(300, 500, 800);
         p5.noStroke();
-        p5.ellipse(keypoint.position.x, keypoint.position.y, 20, 20);
+        p5.square(keypoint.position.x, keypoint.position.y, 20);
       }
     });
   });
 }
+
+var value = 0;
+
+function draw() {} //p5.fill(value);
+//p5.rect(25, 25, 50, 50);
+// function mouseClicked() {
+//   if (value === 0) {
+//     value = 255;
+//   } else {
+//     value = 0;
+//   }
+// }
+
+
+function mouseClicked() {
+  p5.soundFormats('mp3');
+  p5.ellipse(mouseX, mouseY, 5, 5);
+  console.log(p5.mySound); // prevent default
+  //return false; 
+} // function mouseClicked(event) {
+//   console.log(event);
+// }
+
 
 function drawSkeleton(poses) {
   poses.forEach(function (pose) {
@@ -199,7 +301,7 @@ function drawSkeleton(poses) {
     });
   });
 }
-},{}],"index.js":[function(require,module,exports) {
+},{"./assets/calm.mp3":"assets/calm.mp3","./assets/sad.mp3":"assets/sad.mp3","./assets/up2u.mp3":"assets/up2u.mp3"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var sketch = _interopRequireWildcard(require("./sketch"));
@@ -216,6 +318,10 @@ if (module.hot) {
 
 var s2 = function s2(p5s) {
   sketch.setSketch(p5s);
+
+  p5s.preload = function () {
+    return sketch.preload(sketch);
+  };
 
   p5s.setup = function () {
     return sketch.setup(sketch);
@@ -255,7 +361,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65484" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55912" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

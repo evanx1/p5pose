@@ -8,6 +8,7 @@ if (module.hot) {
 
 const s2 = (p5s) => {
   sketch.setSketch(p5s);
+  p5s.preload = () => sketch.preload(sketch);
   p5s.setup = () => sketch.setup(sketch);
   p5s.draw = () => sketch.draw(sketch);
 }
